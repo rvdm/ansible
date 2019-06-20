@@ -1,16 +1,15 @@
-- hosts: all
+- hosts: local
   user: root
   become: yes
 
   tasks:
-          apt: 
-                name: Install packages
-                apt: name={{item}} state=present
-                update_cache: yes
-                with_items:
-                        - neovim
-                        - gawk
-                        - git
-                        - zsh
-                        - htop
+  - name: Install packages
+    apt: name={{item}} state=present
+    update_cache: yes
+    with_items:
+    - neovim
+    - gawk
+    - git
+    - zsh
+    - htop
 
