@@ -17,6 +17,7 @@
 
 - hosts: pull_mode_hosts
   remote_user: rvdm
+  become: yes
 
   vars:
 
