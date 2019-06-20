@@ -3,8 +3,8 @@
   tasks:
   - name: Install packages
     apt: name={{item}} state=present
-       update_cache: yes
-       with_items:
+    update_cache: yes
+    with_items:
        - neovim
        - gawk
        - git
