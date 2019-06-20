@@ -1,6 +1,4 @@
 - hosts: local
-  user: root
-  become: yes
 
   tasks:
   - name: Install packages
