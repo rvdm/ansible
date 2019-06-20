@@ -2,13 +2,7 @@
 
   tasks:
   - name: Install packages
-    apt: name={{item}} state=present update_cache=yes
-    with_items:
-       - neovim
-       - gawk
-       - git
-       - zsh
-       - htop
-       - aptitude
-       - mtr
-       - curl
+    apt: 
+    name: ['neovim','gawk','git','zsh','htop','aptitude','mtr','curl']
+    state: present 
+    update_cache: yes
