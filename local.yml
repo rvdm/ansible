@@ -3,6 +3,6 @@
   tasks:
   - name: Install packages
     apt: 
-    name: ['neovim','gawk','git','zsh','htop','aptitude','mtr','curl']
-    state: present 
-    update_cache: yes
+      name: ['neovim','gawk','git','zsh','htop','aptitude','mtr','curl']
+      state: present 
+      update_cache: yes
