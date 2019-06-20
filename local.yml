@@ -1,0 +1,15 @@
+- hosts: localhost
+  user: root
+
+  tasks:
+          apt: 
+                name: Install packages
+                apt: name={{item}} state=present
+                update_cache: yes
+                with_items:
+                        - neovim
+                        - gawk
+                        - git
+                        - zsh
+                        - htop
+
