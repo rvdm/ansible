@@ -13,3 +13,5 @@
     - zsh
     - htop
     - aptitude
+    - mtr
+    - curl
