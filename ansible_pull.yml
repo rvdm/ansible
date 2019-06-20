@@ -16,7 +16,7 @@
 ---
 
 - hosts: pull_mode_hosts
-#remote_user: root
+  remote_user: rvdm
 
   vars:
 
