@@ -3,6 +3,6 @@
   tasks:
   - name: Install packages
     apt: 
-      name: ['neovim','gawk','git','zsh','htop','aptitude','mtr','curl','dnsutils','most','mosh','nmap','netcat-openbsd','tmux','traceroute','wget']
+      name: ['neovim','gawk','git','zsh','htop','aptitude','mtr','curl','dnsutils','most','mosh','nmap','netcat-openbsd','tmux','traceroute','wget','openvpn']
       state: present 
       update_cache: yes
