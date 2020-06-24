@@ -6,3 +6,9 @@
       name: ['bc','neovim','gawk','git','zsh','htop','aptitude','mtr','curl','dnsutils','most','mosh','nmap','netcat-openbsd','tmux','traceroute','wget','openvpn']
       state: present 
       update_cache: yes
+  - name: Check default editor
+    stat: path=/etc/alternatives/editor
+    register: editor
+  - name: Set nvim as the default editor
+    shell: "/usr/sbin/update-alternatives --set editor /usr/bin/nvim || /usr/bin/update-alternatives --set editor /usr/bin/nvim"
+    when: editor.stat.lnk_source != '/usr/bin/nvim'
