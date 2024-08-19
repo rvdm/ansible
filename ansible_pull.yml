@@ -41,6 +41,9 @@
 
   tasks:
 
+    - name: create ansible dir
+      file: path=/etc/ansible state=directory owner=root group=root mode=0755
+
     - name: Install ansible
       apt:
               name: ansible
