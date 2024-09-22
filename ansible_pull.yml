@@ -39,6 +39,8 @@
     #repo_url: git://github.com/sfromm/ansible-playbooks.git
     repo_url: https://github.com/rvdm/ansible.git
 
+    healthcheck_id: RmCo8idNJAAfJ-bYia-Naw
+
   tasks:
 
     - name: create ansible dir
@@ -61,3 +63,15 @@
 
     - name: Create logrotate entry for ansible-pull.log
       template: src=templates/etc_logrotate.d_ansible-pull.j2 dest=/etc/logrotate.d/ansible-pull owner=root group=root mode=0644
+
+    - name: Ensure healthcheck script exists
+      template:
+        src: 'healthcheck.sh'
+        dest: '/usr/local/bin/healthcheck.sh'
+        mode: '0755'
+
+    - name: Ensure healthcheck job is added to cron
+      cron:
+        name: "healthcheck"
+        minute: "*/5"
+        job: "/usr/local/bin/healthcheck.sh > /dev/null"
