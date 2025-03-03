@@ -25,7 +25,7 @@
       remote_src: true
     when: ansible_architecture == "x86_64"
   - name: mv neovim directory
-    shell: nv /usr/local/nvim-linux-x86_64 /usr/local/nvim
+    shell: mv /usr/local/nvim-linux-x86_64 /usr/local/nvim
     when: ansible_architecture == "x86_64"
   - name: install latest neovim (aarch64)
     unarchive:
@@ -34,5 +34,5 @@
       remote_src: true
     when: ansible_architecture == "aarch64"
   - name: mv neovim directory
-    shell: nv /usr/local/nvim-linux-arm64 /usr/local/nvim
+    shell: mv /usr/local/nvim-linux-arm64 /usr/local/nvim
     when: ansible_architecture == "aarch64"
