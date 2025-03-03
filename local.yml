@@ -3,7 +3,7 @@
   tasks:
   - name: Install packages
     apt: 
-      name: ['bc','gawk','git','zsh','htop','aptitude','mtr','curl','dnsutils','most','mosh','nmap','netcat-openbsd','tmux','traceroute','wget','openvpn', 'silversearcher-ag', 'fd-find', 'direnv','python3-neovim']
+      name: ['snapd','bc','gawk','git','zsh','htop','aptitude','mtr','curl','dnsutils','most','mosh','nmap','netcat-openbsd','tmux','traceroute','wget','openvpn', 'silversearcher-ag', 'fd-find', 'direnv','python3-neovim']
       state: present 
       update_cache: yes
   - name: Check default editor
@@ -13,25 +13,12 @@
     apt:
       name: ['neovim']
       state: absent
-  - name: install latest neovim (x86)
-    unarchive:
-      src: "https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz"
-      dest: /usr/local/
-      remote_src: true
-    when: ansible_architecture == "x86_64"
-  - name: mv neovim directory
-    shell: mv /usr/local/nvim-linux-x86_64 /usr/local/nvim
-    when: ansible_architecture == "x86_64"
-  - name: install latest neovim (aarch64)
-    unarchive:
-      src: "https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-arm64.tar.gz"
-      dest: /usr/local/
-      remote_src: true
-    when: ansible_architecture == "aarch64"
-  - name: mv neovim directory
-    shell: mv /usr/local/nvim-linux-arm64 /usr/local/nvim
+  - name: install neovim snap
+    community.general.snap:
+      name:
+        - nvim
   - name: Set nvim as the default editor
-    shell: "/usr/sbin/update-alternatives --set editor /usr/local/nvim/bin/nvim || /usr/bin/update-alternatives --set editor /usr/local/nvim/bin/nvim"
+    shell: "/usr/sbin/update-alternatives --set editor /snap/nvim/bin/nvim || /usr/bin/update-alternatives --set editor /snap/nvim/bin/nvim"
     when: editor.stat.lnk_source != '/usr/bin/nvim'
     #  - name: Install or update starship
     #shell: "curl -sS https://starship.rs/install.sh | sh -s -- -y"
