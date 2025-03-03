@@ -1,6 +1,6 @@
 - hosts: local
 
- tasks:
+  tasks:
  - name: Install packages
     apt: 
       name: ['bc','gawk','git','zsh','htop','aptitude','mtr','curl','dnsutils','most','mosh','nmap','netcat-openbsd','tmux','traceroute','wget','openvpn', 'silversearcher-ag', 'fd-find', 'direnv','python3-neovim']
