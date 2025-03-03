@@ -1,15 +1,15 @@
 - hosts: local
 
   tasks:
- - name: Install packages
+  - name: Install packages
     apt: 
       name: ['bc','gawk','git','zsh','htop','aptitude','mtr','curl','dnsutils','most','mosh','nmap','netcat-openbsd','tmux','traceroute','wget','openvpn', 'silversearcher-ag', 'fd-find', 'direnv','python3-neovim']
       state: present 
       update_cache: yes
- - name: Check default editor
+  - name: Check default editor
     stat: path=/etc/alternatives/editor
     register: editor
- - name: ensure neovim is not there 
+  - name: ensure neovim is not there 
     apt:
       name: ['neovim']
       state: absent
