@@ -18,7 +18,7 @@
       name: nvim
       classic: true
   - name: Set nvim as the default editor
-    shell: "/usr/sbin/update-alternatives --set editor /snap/nvim/bin/nvim || /usr/bin/update-alternatives --set editor /snap/nvim/bin/nvim"
+    shell: "/usr/sbin/update-alternatives --set editor /snap/bin/nvim || /usr/bin/update-alternatives --set editor /snap/bin/nvim"
     when: editor.stat.lnk_source != '/usr/bin/nvim'
     #  - name: Install or update starship
     #shell: "curl -sS https://starship.rs/install.sh | sh -s -- -y"
