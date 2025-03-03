@@ -1,20 +1,15 @@
 - hosts: local
 
-  tasks:
-  - name: Install packages
+ tasks:
+ - name: Install packages
     apt: 
       name: ['bc','gawk','git','zsh','htop','aptitude','mtr','curl','dnsutils','most','mosh','nmap','netcat-openbsd','tmux','traceroute','wget','openvpn', 'silversearcher-ag', 'fd-find', 'direnv','python3-neovim']
       state: present 
       update_cache: yes
-  - name: Check default editor
+ - name: Check default editor
     stat: path=/etc/alternatives/editor
     register: editor
-  - name: Set nvim as the default editor
-    shell: "/usr/sbin/update-alternatives --set editor /usr/local/nvim/bin/nvim || /usr/bin/update-alternatives --set editor /usr/local/nvim/bin/nvim"
-    when: editor.stat.lnk_source != '/usr/bin/nvim'
-    #  - name: Install or update starship
-    #shell: "curl -sS https://starship.rs/install.sh | sh -s -- -y"
-  - name: ensure neovim is not there 
+ - name: ensure neovim is not there 
     apt:
       name: ['neovim']
       state: absent
@@ -35,4 +30,9 @@
     when: ansible_architecture == "aarch64"
   - name: mv neovim directory
     shell: mv /usr/local/nvim-linux-arm64 /usr/local/nvim
+  - name: Set nvim as the default editor
+    shell: "/usr/sbin/update-alternatives --set editor /usr/local/nvim/bin/nvim || /usr/bin/update-alternatives --set editor /usr/local/nvim/bin/nvim"
+    when: editor.stat.lnk_source != '/usr/bin/nvim'
+    #  - name: Install or update starship
+    #shell: "curl -sS https://starship.rs/install.sh | sh -s -- -y"
     when: ansible_architecture == "aarch64"
