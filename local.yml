@@ -3,7 +3,7 @@
   tasks:
   - name: Install packages
     apt: 
-      name: ['snapd','bc','gawk','git','zsh','htop','aptitude','mtr','curl','dnsutils','most','mosh','nmap','netcat-openbsd','tmux','traceroute','wget','openvpn', 'silversearcher-ag', 'fd-find', 'direnv','python3-neovim']
+      name: ['snapd','bc','gawk','git','zsh','htop','aptitude','mtr','curl','dnsutils','most','mosh','nmap','netcat-openbsd','tmux','traceroute','wget','openvpn', 'silversearcher-ag', 'fd-find', 'direnv','python3-neovim', 'python3']
       state: present 
       update_cache: yes
   - name: Check default editor
