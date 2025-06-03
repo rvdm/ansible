@@ -56,6 +56,10 @@
       pacman:
         name: ansible
         update_cache: yes
+      register: pacman_result
+      retries: 3
+      delay: 5
+      until: pacman_result is not failed
       when: ansible_facts['os_family'] == "Archlinux"
 
     - name: Install cronie (Arch Linux)
@@ -70,6 +74,20 @@
         state: started
         enabled: yes
       when: ansible_facts['os_family'] == "Archlinux"
+
+    - name: Install logrotate (Arch Linux)
+      pacman:
+        name: logrotate
+        state: present
+      when: ansible_facts['os_family'] == "Archlinux"
+
+    - name: Ensure logrotate.d directory exists
+      file:
+        path: /etc/logrotate.d
+        state: directory
+        mode: '0755'
+        owner: root
+        group: root
 
     - name: Create local directory to work from
       file: path={{workdir}} state=directory owner=root group=root mode=0751
