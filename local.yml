@@ -1,24 +1,88 @@
 - hosts: local
 
+  vars:
+    common_packages:
+      - bc
+      - gawk
+      - git
+      - zsh
+      - htop
+      - mtr
+      - curl
+      - most
+      - mosh
+      - nmap
+      - tmux
+      - traceroute
+      - wget
+      - openvpn
+      - direnv
+      - luarocks
+      - unzip
+    debian_specific_packages:
+      - snapd
+      - aptitude
+      - dnsutils
+      - netcat-openbsd
+      - silversearcher-ag
+      - fd-find
+      - python3-neovim
+      - python3
+      - python3-venv
+    arch_specific_packages:
+      - bind-tools  # replaces dnsutils
+      - openbsd-netcat  # replaces netcat-openbsd
+      - the_silver_searcher  # replaces silversearcher-ag
+      - fd  # replaces fd-find
+      - python-pynvim  # replaces python3-neovim
+      - python  # replaces python3
+      - python-virtualenv  # replaces python3-venv
+
   tasks:
-  - name: Install packages
-    apt: 
-      name: ['snapd','bc','gawk','git','zsh','htop','aptitude','mtr','curl','dnsutils','most','mosh','nmap','netcat-openbsd','tmux','traceroute','wget','openvpn', 'silversearcher-ag', 'fd-find', 'direnv','python3-neovim', 'python3', 'luarocks', 'unzip', 'python3-venv']
-      state: present 
-      update_cache: yes
-  - name: Check default editor
-    stat: path=/etc/alternatives/editor
-    register: editor
-  - name: ensure neovim is not there 
-    apt:
-      name: ['neovim']
-      state: absent
-  - name: install neovim snap
-    community.general.snap:
-      name: nvim
-      classic: true
-  - name: Set nvim as the default editor
-    shell: "/usr/sbin/update-alternatives --set editor /snap/bin/nvim || /usr/bin/update-alternatives --set editor /snap/bin/nvim"
-    when: editor.stat.lnk_source != '/usr/bin/nvim'
+    - name: Install common packages
+      package:
+        name: "{{ common_packages }}"
+        state: present
+
+    - name: Install Debian-specific packages
+      package:
+        name: "{{ debian_specific_packages }}"
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Install Arch-specific packages
+      package:
+        name: "{{ arch_specific_packages }}"
+        state: present
+      when: ansible_facts['os_family'] == "Archlinux"
+
+    - name: Install neovim (Debian)
+      block:
+        - name: ensure neovim is not there
+          apt:
+            name: ['neovim']
+            state: absent
+        - name: install neovim snap
+          community.general.snap:
+            name: nvim
+            classic: true
+        - name: Set nvim as the default editor (Debian)
+          shell: "/usr/sbin/update-alternatives --set editor /snap/bin/nvim || /usr/bin/update-alternatives --set editor /snap/bin/nvim"
+          when: editor.stat.lnk_source != '/usr/bin/nvim'
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Install neovim (Arch)
+      block:
+        - name: Install neovim from pacman
+          package:
+            name: neovim
+            state: present
+        - name: Create symlink for editor
+          file:
+            src: /usr/bin/nvim
+            dest: /usr/local/bin/editor
+            state: link
+      when: ansible_facts['os_family'] == "Archlinux"
+
     #  - name: Install or update starship
     #shell: "curl -sS https://starship.rs/install.sh | sh -s -- -y"
