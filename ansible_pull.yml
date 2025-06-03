@@ -46,10 +46,30 @@
     - name: create ansible dir
       file: path=/etc/ansible state=directory owner=root group=root mode=0755
 
-    - name: Install ansible
+    - name: Install ansible (Debian/Ubuntu)
       apt:
-              name: ansible
-              update_cache: yes
+        name: ansible
+        update_cache: yes
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Install ansible (Arch Linux)
+      pacman:
+        name: ansible
+        update_cache: yes
+      when: ansible_facts['os_family'] == "Archlinux"
+
+    - name: Install cronie (Arch Linux)
+      pacman:
+        name: cronie
+        state: present
+      when: ansible_facts['os_family'] == "Archlinux"
+
+    - name: Enable and start cronie service (Arch Linux)
+      systemd:
+        name: cronie
+        state: started
+        enabled: yes
+      when: ansible_facts['os_family'] == "Archlinux"
 
     - name: Create local directory to work from
       file: path={{workdir}} state=directory owner=root group=root mode=0751
