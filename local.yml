@@ -37,6 +37,7 @@
       - python-pynvim  # replaces python3-neovim
       - python  # replaces python3
       - python-virtualenv  # replaces python3-venv
+      - which
 
   tasks:
     - name: Install common packages
