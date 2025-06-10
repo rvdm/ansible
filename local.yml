@@ -103,9 +103,11 @@
         src: /home/rvdm/.zshrc
         dest: /root/.zshrc
         owner: root
+        state: link
 
     - name: symlink starship configuration
       ansible.builtin.file:
         src: /home/rvdm/.config/starship.toml
         dest: /root/.config/starship.toml
         owner: root
+        state: link
