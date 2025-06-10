@@ -85,9 +85,14 @@
             state: link
       when: ansible_facts['os_family'] == "Archlinux"
 
+    - name: starship installed?
+      stat:
+        path: /usr/local/bin/starship
+      register: starship_installed
+
     - name: Install or update starship
       shell: "curl -sS https://starship.rs/install.sh | sh -s -- -y"
-      creates: /usr/local/bin/starship
+      when: not starship_installed.stat.exists
 
     - name: symlink root zshrc
       ansible.builtin.file:
