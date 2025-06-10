@@ -85,5 +85,18 @@
             state: link
       when: ansible_facts['os_family'] == "Archlinux"
 
-    #  - name: Install or update starship
-    #shell: "curl -sS https://starship.rs/install.sh | sh -s -- -y"
+    - name: Install or update starship
+      shell: "curl -sS https://starship.rs/install.sh | sh -s -- -y"
+      creates: /usr/local/bin/starship
+
+    - name: symlink root zshrc
+      ansible.builtin.file:
+        src: /home/rvdm/.zshrc
+        dest: /root/.zshrc
+        owner: root
+
+    - name: symlink starship configuration
+      ansible.builtin.file:
+        src: /home/rvdm/.config/starship.toml
+        dest: /root/.config/starship.toml
+        owner: root
