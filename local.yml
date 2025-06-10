@@ -72,8 +72,7 @@
             name: nvim
             classic: true
         - name: Set nvim as the default editor (Debian)
-          shell: "/usr/sbin/update-alternatives --install /usr/bin/editor editor /snap/bin/nvim 1"
-          shell: "/usr/sbin/update-alternatives --set editor /snap/bin/nvim || /usr/bin/update-alternatives --set editor /snap/bin/nvim"
+          shell: "/usr/sbin/update-alternatives --install /usr/bin/editor editor /snap/bin/nvim 1;/usr/sbin/update-alternatives --set editor /snap/bin/nvim || /usr/bin/update-alternatives --set editor /snap/bin/nvim"
           when: editor.stat.lnk_source != '/usr/bin/nvim'
       when: ansible_facts['os_family'] == "Debian"
 
