@@ -19,6 +19,7 @@
       - direnv
       - luarocks
       - unzip
+      - nftables
     debian_specific_packages:
       - snapd
       - aptitude
